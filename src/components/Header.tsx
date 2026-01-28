@@ -1,8 +1,14 @@
+import React from "react";
 import BookmarksButton from "./BookmarksButton";
 import Logo from "./Logo";
 import SearchForm from "./SearchForm";
 
-export default function Header() {
+type Props = {
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function Header({ searchText, setSearchText }: Props) {
   return (
     <header className="header">
       <div className="header__top">
@@ -10,7 +16,7 @@ export default function Header() {
         <BookmarksButton />
       </div>
 
-      <SearchForm />
+      <SearchForm searchText={searchText} setSearchText={setSearchText} />
     </header>
   );
 }

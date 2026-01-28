@@ -1,23 +1,11 @@
-import { useEffect, useState } from "react";
+import React from "react";
 
-export default function SearchForm() {
-  const [searchText, setSearchText] = useState("");
-  const [jobItems, setJobItems] = useState([]);
+type Props = {
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+};
 
-  useEffect(() => {
-    if (!searchText) return;
-
-    const fetchData = async () => {
-      const res = await fetch(
-        `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${searchText}`,
-      );
-      const data = await res.json();
-      setJobItems(data.jobItems);
-    };
-
-    fetchData();
-  }, [searchText]);
-
+export default function SearchForm({ searchText, setSearchText }: Props) {
   return (
     <form onSubmit={(e) => e.preventDefault()} action="#" className="search">
       <button type="submit">
