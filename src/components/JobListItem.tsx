@@ -1,6 +1,20 @@
 import BookmarkIcon from "./BookmarkIcon";
 
-export default function JobListItem({ jobItem }) {
+type JobItem = {
+  id: number;
+  badgeLetters: string;
+  title: string;
+  company: string;
+  date: string;
+  relevanceScore: number;
+  daysAgo: number;
+};
+
+type Props = {
+  jobItem: JobItem;
+};
+
+export default function JobListItem({ jobItem }: Props) {
   return (
     <li className="job-item">
       <a className="job-item__link">
