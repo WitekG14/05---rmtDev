@@ -1,6 +1,20 @@
 import JobListItem from "./JobListItem";
 
-export function JobList({ jobItems }) {
+type JobItem = {
+  id: number;
+  badgeLetters: string;
+  title: string;
+  company: string;
+  date: string;
+  relevanceScore: number;
+  daysAgo: number;
+};
+
+type Props = {
+  jobItems: JobItem[];
+};
+
+export function JobList({ jobItems }: Props) {
   return (
     <ul className="job-list">
       {jobItems.map((jobItem) => (
