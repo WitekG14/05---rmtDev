@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { JobItem } from "./types";
+import { BASE_API_URL } from "./constants";
 
 export function useActiveId() {
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -20,6 +21,30 @@ export function useActiveId() {
   return activeId;
 }
 
+export function useActiveJobItem() {
+  const activeId = useActiveId();
+  const jobItem = useJobItem(activeId);
+  return jobItem;
+}
+
+export function useJobItem(id: number | null) {
+  const [jobItem, setJobItem] = useState(null);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchData = async () => {
+      const res = await fetch(`${BASE_API_URL}/${id}`);
+      const data = await res.json();
+      setJobItem(data.jobItem);
+    };
+
+    fetchData();
+  }, [id]);
+
+  return jobItem;
+}
+
 export function useJobItems(searchText: string) {
   const [jobItems, setJobItems] = useState<JobItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +56,7 @@ export function useJobItems(searchText: string) {
 
     const fetchData = async () => {
       setIsLoading(true);
-      const res = await fetch(
-        `https://bytegrad.com/course-assets/projects/rmtdev/api/data?search=${searchText}`,
-      );
+      const res = await fetch(`${BASE_API_URL}?search=${searchText}`);
       const data = await res.json();
       setIsLoading(false);
       setJobItems(data.jobItems);
