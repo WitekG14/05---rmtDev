@@ -1,10 +1,11 @@
 import BookmarkIcon from "./BookmarkIcon";
-import { JobItemExpanded } from "../lib/types";
 import { useActiveJobItem } from "../lib/hooks";
+import Spinner from "./Spinner";
 
 export default function JobItemContent() {
-  const jobItem: JobItemExpanded | null = useActiveJobItem();
+  const [jobItem, isLoading] = useActiveJobItem();
 
+  if (isLoading) return <LoadingJobContent />;
   if (!jobItem) return <EmptyJobContent />;
 
   return (
@@ -88,6 +89,16 @@ export default function JobItemContent() {
             it!
           </p>
         </footer>
+      </div>
+    </section>
+  );
+}
+
+function LoadingJobContent() {
+  return (
+    <section className="job-details">
+      <div>
+        <Spinner />
       </div>
     </section>
   );
