@@ -14,12 +14,11 @@ import JobList from "./JobList";
 import Pagination from "./PaginationControls";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
-import { useActiveJobItem, useJobItems } from "../lib/hooks";
+import { useJobItems } from "../lib/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const [jobItems, isLoading] = useJobItems(searchText);
-  const jobItem = useActiveJobItem();
 
   return (
     <>
@@ -44,7 +43,7 @@ function App() {
 
           <Pagination />
         </Sidebar>
-        <JobItemContent jobItem={jobItem} />
+        <JobItemContent />
       </Container>
 
       <Footer />
