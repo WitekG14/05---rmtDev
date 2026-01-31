@@ -3,7 +3,7 @@ import { useActiveJobItem } from "../lib/hooks";
 import Spinner from "./Spinner";
 
 export default function JobItemContent() {
-  const [jobItem, isLoading] = useActiveJobItem();
+  const { jobItem, isLoading } = useActiveJobItem();
 
   if (isLoading) return <LoadingJobContent />;
   if (!jobItem) return <EmptyJobContent />;

@@ -23,8 +23,8 @@ export function useActiveId() {
 
 export function useActiveJobItem() {
   const activeId = useActiveId();
-  const [jobItem, isLoading] = useJobItem(activeId);
-  return [jobItem, isLoading] as const;
+  const { jobItem, isLoading } = useJobItem(activeId);
+  return { jobItem, isLoading } as const;
 }
 
 export function useJobItem(id: number | null) {
@@ -45,7 +45,7 @@ export function useJobItem(id: number | null) {
     fetchData();
   }, [id]);
 
-  return [jobItem, isLoading] as const;
+  return { jobItem, isLoading } as const;
 }
 
 export function useJobItems(searchText: string) {
@@ -69,5 +69,5 @@ export function useJobItems(searchText: string) {
     fetchData();
   }, [searchText]);
 
-  return [jobItemsSliced, isLoading, totalNumberOfResults] as const;
+  return { jobItemsSliced, isLoading, totalNumberOfResults } as const;
 }
