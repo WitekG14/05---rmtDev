@@ -14,15 +14,17 @@ import JobList from "./JobList";
 import Pagination from "./PaginationControls";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
-import { useJobItems } from "../lib/hooks";
+import { useDebounce, useJobItems } from "../lib/hooks";
 
 function App() {
   const [searchText, setSearchText] = useState("");
+  const debouncedSearchText = useDebounce(searchText, 250);
+
   const {
     jobItemsSliced: jobItems,
     isLoading,
     totalNumberOfResults,
-  } = useJobItems(searchText);
+  } = useJobItems(debouncedSearchText);
 
   return (
     <>

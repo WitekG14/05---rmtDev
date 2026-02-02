@@ -27,6 +27,17 @@ export function useActiveJobItem() {
   return { jobItem, isLoading } as const;
 }
 
+export function useDebounce<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timerId);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 export function useJobItem(id: number | null) {
   const [jobItem, setJobItem] = useState<JobItemExpanded | null>(null);
   const [isLoading, setIsLoading] = useState(false);
