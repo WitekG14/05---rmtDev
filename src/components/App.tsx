@@ -15,6 +15,7 @@ import Pagination from "./PaginationControls";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
 import { useDebounce, useJobItems } from "../lib/hooks";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -53,6 +54,7 @@ function App() {
       </Container>
 
       <Footer />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 }
