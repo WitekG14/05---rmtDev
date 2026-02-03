@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-import { JobItem } from "./types";
+import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
 import { useQuery } from "@tanstack/react-query";
+
+type JobItemApiResponse = {
+  public: boolean;
+  jobItem: JobItemExpanded;
+};
 
 export function useActiveId() {
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -39,7 +44,7 @@ export function useDebounce<T>(value: T, delay: number) {
   return debouncedValue;
 }
 
-const fetchJobItem = async (id: number) => {
+const fetchJobItem = async (id: number): Promise<JobItemApiResponse> => {
   const res = await fetch(`${BASE_API_URL}/${id}`);
   const data = await res.json();
   return data;
@@ -74,7 +79,6 @@ export function useJobItem(id: number | null) {
   );
 
   const jobItem = data?.jobItem;
-  // console.log(id, jobItem, isLoading);
   return { jobItem, isLoading } as const;
 }
 
