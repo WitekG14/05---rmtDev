@@ -66,7 +66,7 @@ export function useJobItem(id: number | null) {
   // }, [id]);
   // return { jobItem, isLoading } as const;
 
-  const { data, isLoading } = useQuery(
+  const { data, isInitialLoading: isLoading } = useQuery(
     ["job-item", id],
     () => (id ? fetchJobItem(id) : null),
     {
