@@ -46,6 +46,12 @@ export function useDebounce<T>(value: T, delay: number) {
 
 const fetchJobItem = async (id: number): Promise<JobItemApiResponse> => {
   const res = await fetch(`${BASE_API_URL}/${id}`);
+  // 4xx or 5xx
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.description);
+  }
+
   const data = await res.json();
   return data;
 };
@@ -74,7 +80,9 @@ export function useJobItem(id: number | null) {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!id,
-      onError: () => {},
+      onError: (err) => {
+        console.log(err);
+      },
     },
   );
 
