@@ -15,17 +15,14 @@ import Pagination from "./PaginationControls";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
 import { useDebounce, useJobItems } from "../lib/hooks";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 250);
+  const { jobItems, isLoading } = useJobItems(debouncedSearchText);
 
-  const {
-    jobItemsSliced: jobItems,
-    isLoading,
-    totalNumberOfResults,
-  } = useJobItems(debouncedSearchText);
+  const totalNumberOfResults = jobItems?.length || 0;
+  const jobItemsSliced = jobItems?.slice(0, 7) || [];
 
   return (
     <>
@@ -46,7 +43,7 @@ function App() {
             <Sorting />
           </SidebarTop>
 
-          <JobList jobItems={jobItems} isLoading={isLoading} />
+          <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
 
           <Pagination />
         </Sidebar>
@@ -54,7 +51,6 @@ function App() {
       </Container>
 
       <Footer />
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 }
