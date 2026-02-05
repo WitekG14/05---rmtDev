@@ -15,6 +15,7 @@ import Pagination from "./PaginationControls";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
 import { useDebounce, useJobItems } from "../lib/hooks";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [searchText, setSearchText] = useState("");
@@ -51,6 +52,8 @@ function App() {
       </Container>
 
       <Footer />
+
+      <Toaster position="top-center" />
     </>
   );
 }

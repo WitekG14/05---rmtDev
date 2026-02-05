@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 type JobItemApiResponse = {
   public: boolean;
@@ -69,14 +70,14 @@ const fetchJobItems = async (
   // 4xx or 5xx
   if (!res.ok) {
     const errData = await res.json();
-    throw new Error(errData);
+    throw new Error(errData.description || JSON.stringify(errData));
   }
   const data = await res.json();
   return data;
 };
 
 export function useJobItem(id: number | null) {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isError } = useQuery({
     queryKey: ["job-item", id],
     queryFn: () => (id ? fetchJobItem(id) : null),
     staleTime: 1000 * 60 * 60, // 1 hour
@@ -85,30 +86,34 @@ export function useJobItem(id: number | null) {
     enabled: !!id,
   });
 
-  if (error) {
-    console.error(error);
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.message);
+    }
+  }, [isError, error]);
 
   const jobItem = data?.jobItem;
   return { jobItem, isLoading } as const;
 }
 
 export function useJobItems(searchText: string) {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isError } = useQuery({
     queryKey: ["job-items", searchText],
-    queryFn: () => (searchText ? fetchJobItems(searchText) : null),
+    queryFn: () => fetchJobItems(searchText),
     staleTime: 1000 * 60 * 60, // 1 hour
     refetchOnWindowFocus: false,
     retry: false,
     enabled: !!searchText,
   });
 
-  if (error) {
-    console.error(error);
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(error.message);
+    }
+  }, [isError, error]);
 
-  const jobItems = data?.jobItems;
-  return { jobItems, isLoading } as const;
+  return { jobItems: data?.jobItems, isLoading } as const;
+
   // --------------------------------------------------------------
   // const [jobItems, setJobItems] = useState<JobItem[]>([]);
   // const [isLoading, setIsLoading] = useState(false);
