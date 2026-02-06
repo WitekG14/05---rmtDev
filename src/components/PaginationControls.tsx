@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
+import PaginationButton from "./PaginationButton";
 
 type Props = {
   currentPage: number;
@@ -8,15 +8,18 @@ type Props = {
 export default function Pagination({ currentPage, onClick }: Props) {
   return (
     <section className="pagination">
-      <button
-        className="pagination__button"
-        onClick={() => onClick("previous")}
-      >
-        <ArrowLeftIcon /> Page {currentPage - 1}
-      </button>
-      <button className="pagination__button" onClick={() => onClick("next")}>
-        Page {currentPage + 1} <ArrowRightIcon />
-      </button>
+      {currentPage > 1 ? (
+        <PaginationButton
+          direction="previous"
+          currentPage={currentPage}
+          onClick={onClick}
+        />
+      ) : null}
+      <PaginationButton
+        direction="next"
+        currentPage={currentPage}
+        onClick={onClick}
+      />
     </section>
   );
 }
