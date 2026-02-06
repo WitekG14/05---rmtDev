@@ -14,7 +14,10 @@ export default function PaginationButton({
   return (
     <button
       className={`pagination__button pagination__button--${direction}`}
-      onClick={() => onClick(direction)}
+      onClick={(e) => {
+        onClick(direction);
+        e.currentTarget.blur();
+      }}
     >
       {direction === "previous" ? <ArrowLeftIcon /> : <ArrowRightIcon />}
       Page {direction === "previous" ? currentPage - 1 : currentPage + 1}

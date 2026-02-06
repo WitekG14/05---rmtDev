@@ -26,12 +26,14 @@ function App() {
 
   // derived / computed state
   const totalNumberOfResults = jobItems?.length || 0;
-  const jobItemsSliced = jobItems?.slice(0, 7) || [];
+  const totalNumberOfPages = Math.ceil(totalNumberOfResults / 7);
+  const jobItemsSliced =
+    jobItems?.slice(currentPage * 7 - 7, currentPage * 7) || [];
 
   // event handlers
   const handleChangePage = (direction: "next" | "previous") => {
     if (direction === "next") {
-      setCurrentPage((prev) => prev + 1);
+      setCurrentPage((prev) => Math.min(prev + 1, totalNumberOfPages));
     } else if (direction === "previous") {
       setCurrentPage((prev) => Math.max(prev - 1, 1));
     }
@@ -58,7 +60,11 @@ function App() {
 
           <JobList jobItems={jobItemsSliced} isLoading={isLoading} />
 
-          <Pagination currentPage={currentPage} onClick={handleChangePage} />
+          <Pagination
+            currentPage={currentPage}
+            onClick={handleChangePage}
+            totalNumberOfPages={totalNumberOfPages}
+          />
         </Sidebar>
         <JobItemContent />
       </Container>

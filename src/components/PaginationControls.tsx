@@ -2,10 +2,15 @@ import PaginationButton from "./PaginationButton";
 
 type Props = {
   currentPage: number;
+  totalNumberOfPages: number;
   onClick: (direction: "next" | "previous") => void;
 };
 
-export default function Pagination({ currentPage, onClick }: Props) {
+export default function Pagination({
+  currentPage,
+  onClick,
+  totalNumberOfPages,
+}: Props) {
   return (
     <section className="pagination">
       {currentPage > 1 ? (
@@ -15,11 +20,13 @@ export default function Pagination({ currentPage, onClick }: Props) {
           onClick={onClick}
         />
       ) : null}
-      <PaginationButton
-        direction="next"
-        currentPage={currentPage}
-        onClick={onClick}
-      />
+      {currentPage < totalNumberOfPages ? (
+        <PaginationButton
+          direction="next"
+          currentPage={currentPage}
+          onClick={onClick}
+        />
+      ) : null}
     </section>
   );
 }
