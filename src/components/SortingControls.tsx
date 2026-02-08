@@ -1,4 +1,5 @@
 import { SortBy } from "../lib/types";
+import SortingButton from "./SortingButton";
 
 type Props = {
   sortBy: SortBy;
@@ -10,7 +11,7 @@ export default function Sorting({ sortBy, onClick }: Props) {
     <section className="sorting">
       <i className="fa-solid fa-arrow-down-short-wide"></i>
 
-      <button
+      {/* <button
         className={`sorting__button sorting__button--relevant ${sortBy === "relevant" ? "sorting__button--active" : ""}`}
         onClick={() => onClick("relevant")}
       >
@@ -22,7 +23,19 @@ export default function Sorting({ sortBy, onClick }: Props) {
         onClick={() => onClick("recent")}
       >
         Recent
-      </button>
+      </button> */}
+      <SortingButton
+        onClick={() => onClick("relevant")}
+        isActive={sortBy === "relevant"}
+      >
+        Relevant
+      </SortingButton>
+      <SortingButton
+        onClick={() => onClick("recent")}
+        isActive={sortBy === "recent"}
+      >
+        Recent
+      </SortingButton>
     </section>
   );
 }
