@@ -1,9 +1,10 @@
+import { PageDirection } from "../lib/types";
 import PaginationButton from "./PaginationButton";
 
 type Props = {
   currentPage: number;
   totalNumberOfPages: number;
-  onClick: (direction: "next" | "previous") => void;
+  onClick: (direction: PageDirection) => void;
 };
 
 export default function Pagination({

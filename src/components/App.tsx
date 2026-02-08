@@ -17,7 +17,7 @@ import SidebarTop from "./SidebarTop";
 import { useDebounce, useJobItems } from "../lib/hooks";
 import { Toaster } from "react-hot-toast";
 import { RESULTS_PER_PAGE } from "../lib/constants";
-import { SortBy } from "../lib/types";
+import { PageDirection, SortBy } from "../lib/types";
 
 function App() {
   // state
@@ -41,7 +41,7 @@ function App() {
     ) || [];
 
   // event handlers / actions
-  const handleChangePage = (direction: "next" | "previous") => {
+  const handleChangePage = (direction: PageDirection) => {
     if (direction === "next") {
       setCurrentPage((prev) => Math.min(prev + 1, totalNumberOfPages));
     } else if (direction === "previous") {
