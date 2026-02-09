@@ -4,7 +4,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const BookmarksContext = createContext({});
+export const BookmarksContext = createContext(null);
 
 function BookmarksContextProvider({ children }: Props) {
   const [bookmarkedIds, setBookmarkedIds] = useState<number[]>([]);
