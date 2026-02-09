@@ -40,6 +40,7 @@ function App() {
   );
 
   // event handlers / actions
+
   const handleChangePage = (direction: PageDirection) => {
     if (direction === "next") {
       setCurrentPage((prev) => Math.min(prev + 1, totalNumberOfPages));
