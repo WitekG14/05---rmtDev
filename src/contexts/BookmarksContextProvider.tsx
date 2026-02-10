@@ -5,7 +5,12 @@ type Props = {
   children: ReactNode;
 };
 
-export const BookmarksContext = createContext(null);
+type BookmarksContext = {
+  bookmarkedIds: number[];
+  handleToggleBookmark: (id: number) => void;
+};
+
+export const BookmarksContext = createContext<BookmarksContext | null>(null);
 
 function BookmarksContextProvider({ children }: Props) {
   const [bookmarkedIds, setBookmarkedIds] =

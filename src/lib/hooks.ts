@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { BookmarksContext } from "../contexts/BookmarksContextProvider";
 
 type JobItemApiResponse = {
   public: boolean;
@@ -38,6 +39,18 @@ export function useActiveJobItem() {
   const activeId = useActiveId();
   const { jobItem, isLoading } = useJobItem(activeId);
   return { jobItem, isLoading } as const;
+}
+
+export function useBookmarksContext() {
+  const context = useContext(BookmarksContext);
+  if (!context) {
+    throw new Error(
+      "BookmarkIcon must be used within a BookmarksContextProvider",
+    );
+  }
+  const { bookmarkedIds, handleToggleBookmark } = context;
+
+  return { bookmarkedIds, handleToggleBookmark } as const;
 }
 
 export function useDebounce<T>(value: T, delay: number) {
