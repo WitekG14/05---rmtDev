@@ -113,46 +113,16 @@ export function useJobItems(searchText: string) {
   }, [isError, error]);
 
   return { jobItems: data?.jobItems, isLoading } as const;
+}
 
-  // --------------------------------------------------------------
-  // const [jobItems, setJobItems] = useState<JobItem[]>([]);
-  // const [isLoading, setIsLoading] = useState(false);
+export function useLocalStorage<T>(key: string) {
+  const valueFromLocalStorage = JSON.parse(localStorage.getItem(key) || "[]");
 
-  // useEffect(() => {
-  //   if (!searchText) return;
+  const [value, setValue] = useState<T>(valueFromLocalStorage);
 
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     const res = await fetch(`${BASE_API_URL}?search=${searchText}`);
-  //     const data = await res.json();
-  //     setIsLoading(false);
-  //     setJobItems(data.jobItems);
-  //   };
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
 
-  //   fetchData();
-  // }, [searchText]);
-
-  // return { jobItems, isLoading } as const;
-
-  // const { data, isLoading } = useQuery(
-  //   ["job-items", searchText],
-  //   async () => {
-  //     if (!searchText) return;
-  //     const res = await fetch(`${BASE_API_URL}?search=${searchText}`);
-  //     const data = await res.json();
-  //     return data;
-  //   },
-  //   {
-  //     staleTime: 1000 * 60 * 60, // 1 hour
-  //     refetchOnWindowFocus: false,
-  //     retry: false,
-  //     enabled: !!searchText,
-  //     onError: () => {},
-  //   },
-  // );
-
-  // const jobItems: JobItem[] = data?.jobItems;
-  // console.log("data", data, data?.jobItems);
-  // console.log(searchText, jobItems, isLoading);
-  // return { jobItems, isLoading } as const;
+  return [value, setValue] as const;
 }
