@@ -3,18 +3,21 @@ import { useBookmarksContext } from "../lib/hooks";
 
 type Props = {
   id: number;
+  disabled?: boolean;
 };
 
-export default function BookmarkIcon({ id }: Props) {
+export default function BookmarkIcon({ id, disabled }: Props) {
   const { bookmarkedIds, handleToggleBookmark } = useBookmarksContext();
 
   return (
     <button
-      className="bookmark-btn"
+      className={`bookmark-btn ${disabled ? "bookmark-btn-disabled" : ""}`}
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        handleToggleBookmark(id);
+        if (!disabled) {
+          handleToggleBookmark(id);
+        }
       }}
     >
       <BookmarkFilledIcon
