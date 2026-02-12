@@ -246,6 +246,7 @@ body::-webkit-scrollbar {
 .job-list {
   background-color: #fff;
   position: relative;
+  min-height: 80px;
   /* height: 100%; */
   flex: 1;
   display: flex;
@@ -284,8 +285,7 @@ body::-webkit-scrollbar {
   /* visibility: hidden; */
   /* opacity: 0; */
   background-color: #fff;
-  min-height: 96px;
-  min-width: 340px;
+  min-width: 96px;
   width: 340px;
   border-radius: 4px;
   overflow: hidden;
@@ -326,6 +326,13 @@ body::-webkit-scrollbar {
   width: 275px;
   text-align: center;
   margin-bottom: 15px;
+}
+
+.bookmarks-popover .spinner {
+  /* TODO/FIX/HIGH */
+  height: 45px;
+  width: 45px;
+  transform: translate(-50%, -45%);
 }
 
 .job-list--bookmarks {
@@ -1044,6 +1051,7 @@ body::-webkit-scrollbar {
 
 /* SPINNER */
 .spinner {
+  /* TODO/FIX/HIGH */
   position: absolute;
   border-radius: 50%;
   animation: spinner 1s infinite linear;
@@ -1051,6 +1059,8 @@ body::-webkit-scrollbar {
   top: 18%;
   width: 85px;
   height: 85px;
+  /* width: 45px;
+  height: 45px; */
   border-top: 5px solid #e2e7e9;
   border-right: 5px solid #e2e7e9;
   border-bottom: 5px solid #e2e7e9;

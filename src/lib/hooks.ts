@@ -75,6 +75,7 @@ const fetchJobItem = async (id: number): Promise<JobItemApiResponse> => {
   // 4xx or 5xx
   if (!res.ok) {
     const errData = await res.json();
+    toast.error(errData.description);
     throw new Error(errData.description);
   }
 

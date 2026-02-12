@@ -2,6 +2,7 @@ import BookmarkIcon from "./BookmarkIcon";
 
 import { useBookmarksContext } from "../lib/hooks";
 import JobList from "./JobList";
+import Spinner from "./Spinner";
 
 export default function BookmarksPopover() {
   const { bookmarkedJobItems, isLoading } = useBookmarksContext();
@@ -9,6 +10,7 @@ export default function BookmarksPopover() {
   return (
     <div className="bookmarks-popover">
       <JobList jobItems={bookmarkedJobItems} isLoading={isLoading} />
+      {!bookmarkedJobItems && isLoading ? <Spinner /> : null}
       {!bookmarkedJobItems && !isLoading ? (
         <div className="bookmarks__start-view">
           <p>Your Bookmarks</p>
