@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { JobItem, JobItemExpanded } from "./types";
 import { BASE_API_URL } from "./constants";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
 
@@ -48,9 +48,15 @@ export function useBookmarksContext() {
       "BookmarkIcon must be used within a BookmarksContextProvider",
     );
   }
-  const { bookmarkedIds, handleToggleBookmark } = context;
+  const { bookmarkedIds, handleToggleBookmark, bookmarkedJobItems, isLoading } =
+    context;
 
-  return { bookmarkedIds, handleToggleBookmark } as const;
+  return {
+    bookmarkedIds,
+    handleToggleBookmark,
+    bookmarkedJobItems,
+    isLoading,
+  } as const;
 }
 
 export function useDebounce<T>(value: T, delay: number) {
@@ -109,7 +115,42 @@ export function useJobItem(id: number | null) {
   return { jobItem, isLoading } as const;
 }
 
-export function useJobItems(searchText: string) {
+export function useJobItems(ids: number[]) {
+  const results = useQueries({
+    queries: ids.map((id) => ({
+      queryKey: ["job-item", id],
+      queryFn: () => fetchJobItem(id),
+      staleTime: 1000 * 60 * 60, // 1 hour
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!id,
+      onError: (err: Error) => {
+        throw new Error(err.message);
+      },
+    })),
+  });
+
+  const jobItems = results
+    .map((result) => result.data?.jobItem)
+    .filter((jobItem) => jobItem !== undefined);
+  const isLoading = results.some((result) => result.isLoading);
+
+  return { jobItems, isLoading } as const;
+}
+
+export function useLocalStorage<T>(key: string) {
+  const valueFromLocalStorage = JSON.parse(localStorage.getItem(key) || "[]");
+
+  const [value, setValue] = useState<T>(valueFromLocalStorage);
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue] as const;
+}
+
+export function useSearchQuery(searchText: string) {
   const { data, isLoading, error, isError } = useQuery({
     queryKey: ["job-items", searchText],
     queryFn: () => fetchJobItems(searchText),
@@ -126,16 +167,4 @@ export function useJobItems(searchText: string) {
   }, [isError, error]);
 
   return { jobItems: data?.jobItems, isLoading } as const;
-}
-
-export function useLocalStorage<T>(key: string) {
-  const valueFromLocalStorage = JSON.parse(localStorage.getItem(key) || "[]");
-
-  const [value, setValue] = useState<T>(valueFromLocalStorage);
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [value, key]);
-
-  return [value, setValue] as const;
 }
