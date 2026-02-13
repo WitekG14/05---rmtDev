@@ -1,16 +1,18 @@
 import { TriangleDownIcon } from "@radix-ui/react-icons";
 import BookmarksPopover from "./BookmarksPopover";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function BookmarksButton() {
   const [isopen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (
         e.target instanceof HTMLElement &&
-        !e.target.closest(".bookmarks-btn") &&
-        !e.target.closest(".bookmarks-popover")
+        !buttonRef.current?.contains(e.target) &&
+        !popoverRef.current?.contains(e.target)
       ) {
         setIsOpen(false);
       }
@@ -25,13 +27,14 @@ export default function BookmarksButton() {
   return (
     <section>
       <button
+        ref={buttonRef}
         className="bookmarks-btn"
         onClick={() => setIsOpen((prev) => !prev)}
       >
         Bookmarks <TriangleDownIcon />
       </button>
 
-      {isopen && <BookmarksPopover />}
+      {isopen && <BookmarksPopover ref={popoverRef} />}
     </section>
   );
 }

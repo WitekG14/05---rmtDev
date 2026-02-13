@@ -329,7 +329,6 @@ body::-webkit-scrollbar {
 }
 
 .bookmarks-popover .spinner {
-  /* TODO/FIX/HIGH */
   height: 45px;
   width: 45px;
   transform: translate(-50%, -45%);
@@ -419,7 +418,7 @@ body::-webkit-scrollbar {
   margin-right: 13px;
 }
 
-/* .job-item:nth-child(4n + 2) .job-item__badge {
+.job-item:nth-child(4n + 2) .job-item__badge {
   background-color: #3d87f1;
 }
 
@@ -429,7 +428,7 @@ body::-webkit-scrollbar {
 
 .job-item:nth-child(4n + 4) .job-item__badge {
   background-color: #d96a46;
-} */
+}
 
 .job-item__middle {
 }
@@ -1051,7 +1050,6 @@ body::-webkit-scrollbar {
 
 /* SPINNER */
 .spinner {
-  /* TODO/FIX/HIGH */
   position: absolute;
   border-radius: 50%;
   animation: spinner 1s infinite linear;
