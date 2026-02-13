@@ -4,6 +4,7 @@ import { BASE_API_URL } from "./constants";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
+import { ActiveIdContext } from "../contexts/ActiveIdContextProvider";
 
 type JobItemApiResponse = {
   public: boolean;
@@ -35,8 +36,22 @@ export function useActiveId() {
   return activeId;
 }
 
+export function useActiveIdContext() {
+  const context = useContext(ActiveIdContext);
+  if (!context) {
+    throw new Error(
+      "useActiveIdContext must be used within a ActiveIdContextProvider",
+    );
+  }
+  const { activeId } = context;
+
+  return {
+    activeId,
+  } as const;
+}
+
 export function useActiveJobItem() {
-  const activeId = useActiveId();
+  const { activeId } = useActiveIdContext();
   const { jobItem, isLoading } = useJobItem(activeId);
   return { jobItem, isLoading } as const;
 }
