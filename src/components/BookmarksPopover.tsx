@@ -4,11 +4,12 @@ import { useBookmarksContext } from "../lib/hooks";
 import JobList from "./JobList";
 import Spinner from "./Spinner";
 import { forwardRef } from "react";
+import { createPortal } from "react-dom";
 
 const BookmarksPopover = forwardRef<HTMLDivElement>(function (_, ref) {
   const { bookmarkedJobItems, isLoading } = useBookmarksContext();
 
-  return (
+  return createPortal(
     <div className="bookmarks-popover" ref={ref}>
       <JobList jobItems={bookmarkedJobItems} isLoading={isLoading} />
       {!bookmarkedJobItems && isLoading ? <Spinner /> : null}
@@ -21,7 +22,8 @@ const BookmarksPopover = forwardRef<HTMLDivElement>(function (_, ref) {
           </p>
         </div>
       ) : null}
-    </div>
+    </div>,
+    document.body,
   );
 });
 
