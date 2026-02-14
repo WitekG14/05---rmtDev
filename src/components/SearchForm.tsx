@@ -1,11 +1,7 @@
-import React from "react";
+import { useSearchTextContext } from "../lib/hooks";
 
-type Props = {
-  searchText: string;
-  setSearchText: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export default function SearchForm({ searchText, setSearchText }: Props) {
+export default function SearchForm() {
+  const { originalSearchText, handleChangeSearchText } = useSearchTextContext();
   return (
     <form onSubmit={(e) => e.preventDefault()} action="#" className="search">
       <button type="submit">
@@ -13,12 +9,12 @@ export default function SearchForm({ searchText, setSearchText }: Props) {
       </button>
 
       <input
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={(e) => handleChangeSearchText(e.target.value)}
         spellCheck="false"
         type="text"
         required
         placeholder="Find remote developer jobs..."
-        value={searchText}
+        value={originalSearchText}
       />
     </form>
   );

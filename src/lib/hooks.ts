@@ -5,6 +5,8 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
 import { ActiveIdContext } from "../contexts/ActiveIdContextProvider";
+import { SearchTextContext } from "../contexts/SearchTextContextProvider";
+import { JobItemsContext } from "../contexts/JobItemsContextProvider";
 
 type JobItemApiResponse = {
   public: boolean;
@@ -154,6 +156,36 @@ export function useJobItems(ids: number[]) {
   return { jobItems, isLoading } as const;
 }
 
+export function useJobItemsContext() {
+  const context = useContext(JobItemsContext);
+  if (!context) {
+    throw new Error(
+      "useJobItemsContext must be used within a JobItemsContextProvider",
+    );
+  }
+  const {
+    jobItems,
+    isLoading,
+    totalNumberOfPages,
+    totalNumberOfResults,
+    currentPage,
+    sortBy,
+    handleChangePage,
+    handleChangeSortBy,
+  } = context;
+
+  return {
+    jobItems,
+    isLoading,
+    totalNumberOfPages,
+    totalNumberOfResults,
+    currentPage,
+    sortBy,
+    handleChangePage,
+    handleChangeSortBy,
+  } as const;
+}
+
 export function useLocalStorage<T>(key: string) {
   const valueFromLocalStorage = JSON.parse(localStorage.getItem(key) || "[]");
 
@@ -204,4 +236,20 @@ export function useSearchQuery(searchText: string) {
   }, [isError, error]);
 
   return { jobItems: data?.jobItems, isLoading } as const;
+}
+
+export function useSearchTextContext() {
+  const context = useContext(SearchTextContext);
+  if (!context) {
+    throw new Error(
+      "useSearchTextContext must be used within a SearchTextContextProvider",
+    );
+  }
+  const { searchText, originalSearchText, handleChangeSearchText } = context;
+
+  return {
+    searchText,
+    originalSearchText,
+    handleChangeSearchText,
+  } as const;
 }

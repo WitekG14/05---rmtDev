@@ -19,8 +19,9 @@ export default function PaginationButton({
         e.currentTarget.blur();
       }}
     >
-      {direction === "previous" ? <ArrowLeftIcon /> : <ArrowRightIcon />}
+      {direction === "previous" ? <ArrowLeftIcon /> : null}
       Page {direction === "previous" ? currentPage - 1 : currentPage + 1}
+      {direction === "next" ? <ArrowRightIcon /> : null}
     </button>
   );
 }

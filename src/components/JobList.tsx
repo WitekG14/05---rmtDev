@@ -1,15 +1,10 @@
-import { useActiveId } from "../lib/hooks";
-import { type JobItem } from "../lib/types";
+import { useActiveId, useJobItemsContext } from "../lib/hooks";
 import JobListItem from "./JobListItem";
 import Spinner from "./Spinner";
 
-type Props = {
-  jobItems: JobItem[];
-  isLoading: boolean;
-};
-
-export function JobList({ jobItems, isLoading }: Props) {
+export function JobList() {
   const activeId = useActiveId();
+  const { jobItems, isLoading } = useJobItemsContext();
 
   return (
     <ul className="job-list">
