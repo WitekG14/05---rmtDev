@@ -8,17 +8,14 @@ import BookmarksButton from "./BookmarksButton";
 import Sidebar from "./Sidebar";
 import JobItemContent from "./JobItemContent";
 import ResultsCount from "./ResultsCount";
-import JobList from "./JobList";
 import HeaderTop from "./HeaderTop";
 import SidebarTop from "./SidebarTop";
 import { Toaster } from "react-hot-toast";
 import SortingControls from "./SortingControls";
 import PaginationControls from "./PaginationControls";
+import JobListSearchData from "./JobListSearchData";
 
 function App() {
-  // state
-  // const { searchText } = useSearchTextContext();
-
   return (
     <>
       <Background />
@@ -38,7 +35,7 @@ function App() {
             <SortingControls />
           </SidebarTop>
 
-          <JobList />
+          <JobListSearchData />
 
           <PaginationControls />
         </Sidebar>
