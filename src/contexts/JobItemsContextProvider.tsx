@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, ReactNode, useMemo, useState } from "react";
 import { useSearchQuery, useSearchTextContext } from "../lib/hooks";
 import { JobItem, PageDirection, SortBy } from "../lib/types";
@@ -63,19 +64,32 @@ function JobItemsContextProvider({ children }: Props) {
     setCurrentPage(1);
     setSortBy(newSortBy);
   };
+
+  const contextValue = useMemo(
+    () => ({
+      jobItems: jobItemsSortedSliced,
+      isLoading,
+      totalNumberOfResults,
+      totalNumberOfPages,
+      currentPage,
+      sortBy,
+      handleChangePage,
+      handleChangeSortBy,
+    }),
+    [
+      jobItemsSortedSliced,
+      isLoading,
+      totalNumberOfResults,
+      totalNumberOfPages,
+      currentPage,
+      sortBy,
+      handleChangePage,
+      handleChangeSortBy,
+    ],
+  );
+
   return (
-    <JobItemsContext.Provider
-      value={{
-        jobItems: jobItemsSortedSliced,
-        isLoading,
-        totalNumberOfResults,
-        totalNumberOfPages,
-        currentPage,
-        sortBy,
-        handleChangePage,
-        handleChangeSortBy,
-      }}
-    >
+    <JobItemsContext.Provider value={contextValue}>
       {children}
     </JobItemsContext.Provider>
   );
