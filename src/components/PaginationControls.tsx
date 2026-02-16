@@ -10,14 +10,14 @@ export default function PaginationControls() {
         <PaginationButton
           direction="previous"
           currentPage={currentPage}
-          onClick={handleChangePage}
+          onClick={() => handleChangePage("previous")}
         />
       ) : null}
       {currentPage < totalNumberOfPages ? (
         <PaginationButton
           direction="next"
           currentPage={currentPage}
-          onClick={handleChangePage}
+          onClick={() => handleChangePage("next")}
         />
       ) : null}
     </section>
